@@ -1,4 +1,4 @@
-package com.javatechie.spring.drools.api;
+package org.nil.spring.drools.api;
 
 import java.io.IOException;
 
