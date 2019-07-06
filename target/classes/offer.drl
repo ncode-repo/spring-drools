@@ -1,5 +1,8 @@
 package KieRule;
 import org.nil.spring.drools.api.Order;
+import org.nil.spring.drools.api.Product;
+import java.util.ArrayList;
+
 
 rule "HDFC"
 
@@ -18,9 +21,21 @@ orderObject.setDiscount(8);
 end;
 
 rule "DBS"
-
 when
-orderObject : Order(cardType=="DBS" && price>15000);
+	orderObject : Order(cardType=="DBS" && price>15000)
 then
-orderObject.setDiscount(15);
+	orderObject.setDiscount(15);
+	System.out.println("Hi..DBS");
 end;
+
+
+rule "Sum all items"
+when
+	$order: Order(products.size() > 0)
+	$total: Number( intValue == 600 )
+          from accumulate( Product($p: price > 0)
+                           from  $order.products,
+                           sum( $p ) )
+then
+System.out.println("Hi..SUMM" + $total);
+end
